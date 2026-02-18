@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>创新π协会成员名录</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --panel: #fffef9;
+      --ink: #1f2328;
+      --muted: #6a7178;
+      --line: #d9d4c7;
+      --brand: #0d5c63;
+      --accent: #f2a65a;
+      --ok: #2b9348;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      background:
+        radial-gradient(circle at 10% 20%, #fff3d6 0%, transparent 32%),
+        radial-gradient(circle at 85% 30%, #dff3ff 0%, transparent 35%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    .wrap {
+      width: min(980px, 92vw);
+      margin: 40px auto;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+      box-shadow: 0 16px 40px rgba(40, 45, 50, 0.08);
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .sub {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .toolbar {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+      background: var(--panel);
+    }
+    input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(13, 92, 99, 0.14);
+    }
+    .count {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 14px;
+      color: var(--brand);
+      background: rgba(13, 92, 99, 0.08);
+      white-space: nowrap;
+    }
+    .table {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--panel);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    thead th {
+      text-align: left;
+      background: #f2efe4;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    tbody td {
+      padding: 12px 14px;
+      border-bottom: 1px dashed #e7e2d6;
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    .muted { color: var(--muted); }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #b7d7c0;
+      color: var(--ok);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #eef9f1;
+    }
+    .foot {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 720px) {
+      .wrap { margin: 16px auto; padding: 18px; }
+      .toolbar { grid-template-columns: 1fr; }
+      table { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>创新π协会成员名录</h1>
+    <p class="sub">用于展示协会成员清单（当前版本：去重名单）</p>
+
+    <section class="toolbar">
+      <label>
+        <input id="search" type="search" placeholder="搜索姓名（例如：喻文辉）" />
+      </label>
+      <div class="count" id="count">共 0 人</div>
+    </section>
+
+    <section class="table" aria-live="polite">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 72px;">序号</th>
+            <th style="width: 180px;">姓名</th>
+            <th style="width: 180px;">学号</th>
+            <th>备注</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+
+    <p class="foot">学号为空表示待补充；数据来源为协会报名/备案文档整理。</p>
+  </main>
+
+  <script>
+    const members = [
+      { name: "喻文辉", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "李家琪", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "刘凤麟", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "蔡晨欣", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "高振华", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "黄楚淇", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "黄健东", studentId: "", note: "来自报名/备案文档提取" },
+      { name: "田慧雪", studentId: "", note: "来自报名/备案文档提取" }
+    ];
+
+    const rows = document.getElementById("rows");
+    const count = document.getElementById("count");
+    const search = document.getElementById("search");
+
+    function render(list) {
+      rows.innerHTML = "";
+      list.forEach((m, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td><strong>${m.name}</strong></td>
+          <td>${m.studentId || '<span class="muted">待补充</span>'}</td>
+          <td>${m.note} <span class="badge">已收录</span></td>
+        `;
+        rows.appendChild(tr);
+      });
+      count.textContent = `共 ${list.length} 人`;
+    }
+
+    search.addEventListener("input", () => {
+      const q = search.value.trim();
+      if (!q) return render(members);
+      render(members.filter((m) => m.name.includes(q)));
+    });
+
+    render(members);
+  </script>
+</body>
+</html>
