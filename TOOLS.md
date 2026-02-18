@@ -1,9 +1,9 @@
 # TOOLS.md
 
-Local environment notes template:
-- Device aliases
-- Camera names
-- Hostnames
-- Preferred voices
+本地环境记录模板：
+- 设备别名
+- 摄像头名称
+- 主机名称
+- 偏好语音
 
-Do not commit secrets or private endpoints.
+不要提交任何密钥或私有端点信息。

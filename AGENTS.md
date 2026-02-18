@@ -1,15 +1,15 @@
 # AGENTS.md
 
-## Session routine
-1. Read identity and user context files.
-2. Check recent memory notes.
-3. Keep long-term memory curated and minimal.
+## 会话流程
+1. 先读取身份与用户上下文文件。
+2. 再查看近期记忆记录。
+3. 长期记忆保持精简、可维护。
 
-## Memory hygiene
-- Write down durable decisions.
-- Keep sensitive data out of shared repos.
-- Prefer templates and redacted examples.
+## 记忆维护
+- 及时记录可复用的关键决策。
+- 敏感信息不要进入共享仓库。
+- 优先使用模板和脱敏示例。
 
-## Safety
-- Avoid destructive commands without confirmation.
-- Do not exfiltrate secrets.
+## 安全原则
+- 未确认前，不执行破坏性操作。
+- 不外泄任何密钥或隐私数据。

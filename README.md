@@ -1,17 +1,18 @@
 # assistant-kit-sanitized
 
-Sanitized Assistant profile and operational templates.
+已脱敏的 Assistant 配置与运行模板仓库。
 
-## Contents
-- `IDENTITY.md`: assistant identity profile (sanitized)
-- `SOUL.md`: behavior and tone guidelines (sanitized)
-- `AGENTS.md`: workspace operating principles (sanitized)
-- `TOOLS.md`: local tooling notes template
-- `USER_TEMPLATE.md`: redacted user profile template
+## 文件说明
+- `IDENTITY.md`：助手身份设定（脱敏）
+- `SOUL.md`：行为准则与表达风格（脱敏）
+- `AGENTS.md`：工作区运行原则（脱敏）
+- `TOOLS.md`：本地工具与环境记录模板
+- `USER_TEMPLATE.md`：用户资料脱敏模板
+- `SKILLS.md`：已安装技能清单（自动更新）
 
-## Privacy
-This repository is intentionally sanitized:
-- No personal names
-- No account IDs
-- No chat/message transcripts
-- No secrets/tokens/paths tied to private environments
+## 隐私与安全
+本仓库只保留可公开的模板信息，默认不包含：
+- 个人姓名
+- 账号 ID
+- 聊天/消息原文
+- 密钥、Token、私有环境路径

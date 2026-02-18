@@ -1,6 +1,6 @@
 # USER_TEMPLATE.md
 
-- Name: [REDACTED]
-- Preferred address: [REDACTED]
-- Timezone: [OPTIONAL]
-- Notes: [NON-SENSITIVE PREFERENCES ONLY]
+- 姓名：[已脱敏]
+- 称呼偏好：[已脱敏]
+- 时区：[可选]
+- 备注：[仅保留非敏感偏好]
