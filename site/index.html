@@ -18,6 +18,7 @@
       --accent: #f2a65a;
       --ok: #2b9348;
       --card: #fffdf6;
+      --danger: #c44536;
     }
     * { box-sizing: border-box; }
     body {
@@ -32,12 +33,17 @@
     }
     .wrap {
       width: min(1080px, 94vw);
-      margin: 32px auto;
+      margin: 24px auto;
       padding: 24px;
       border: 1px solid var(--line);
       border-radius: 18px;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
       box-shadow: 0 16px 40px rgba(40, 45, 50, 0.08);
+      animation: fadeUp .5s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     h1 {
       margin: 0;
@@ -50,8 +56,34 @@
       color: var(--muted);
       font-size: 14px;
     }
+    .topbar {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .auth {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .auth-btn {
+      border: 1px solid var(--brand);
+      color: var(--brand);
+      background: #f2fbfc;
+      border-radius: 10px;
+      padding: 7px 11px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease;
+    }
+    .auth-btn:hover { background: #e3f6f8; transform: translateY(-1px); }
     .toolbar {
-      margin-top: 22px;
+      margin-top: 16px;
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
@@ -95,6 +127,12 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      opacity: 0;
+      transform: translateY(8px) scale(.99);
+      animation: cardIn .34s ease forwards;
+    }
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .card::after {
       content: "";
@@ -117,22 +155,9 @@
       margin-bottom: 4px;
       width: fit-content;
     }
-    .name {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-    }
-    .line {
-      margin: 0;
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .label {
-      color: var(--brand);
-      font-weight: 700;
-      margin-right: 6px;
-    }
+    .name { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 0.3px; }
+    .line { margin: 0; font-size: 14px; color: var(--muted); }
+    .label { color: var(--brand); font-weight: 700; margin-right: 6px; }
     .badge {
       display: inline-flex;
       align-items: center;
@@ -153,8 +178,9 @@
       padding: 8px 10px;
       font-size: 13px;
       cursor: pointer;
+      transition: background .16s ease, transform .16s ease;
     }
-    .btn:hover { background: #e3f6f8; }
+    .btn:hover { background: #e3f6f8; transform: translateY(-1px); }
     .empty {
       margin-top: 18px;
       text-align: center;
@@ -164,11 +190,7 @@
       border-radius: 12px;
       background: #fffdf9;
     }
-    .foot {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .foot { margin-top: 14px; color: var(--muted); font-size: 13px; }
     .modal {
       position: fixed;
       inset: 0;
@@ -188,38 +210,14 @@
       border-radius: 14px;
       border: 1px solid var(--line);
       padding: 16px;
+      animation: fadeUp .24s ease both;
     }
-    .panel-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+    .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
     .panel h3 { margin: 0; font-size: 24px; }
-    .close {
-      border: 1px solid var(--line);
-      background: #f6f6f6;
-      border-radius: 8px;
-      padding: 6px 9px;
-      cursor: pointer;
-    }
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 14px;
-      margin-top: 10px;
-    }
-    .detail-item {
-      border-bottom: 1px dashed #e5e0d4;
-      padding-bottom: 6px;
-      font-size: 14px;
-    }
-    .detail-label {
-      color: var(--brand);
-      font-weight: 700;
-      margin-right: 6px;
-    }
+    .close { border: 1px solid var(--line); background: #f6f6f6; border-radius: 8px; padding: 6px 9px; cursor: pointer; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin-top: 10px; }
+    .detail-item { border-bottom: 1px dashed #e5e0d4; padding-bottom: 6px; font-size: 14px; }
+    .detail-label { color: var(--brand); font-weight: 700; margin-right: 6px; }
     .detail-block {
       margin-top: 12px;
       padding: 10px;
@@ -229,6 +227,18 @@
       font-size: 14px;
       line-height: 1.55;
     }
+    .login-box {
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid #f0d2d2;
+      border-radius: 12px;
+      background: #fff6f6;
+      font-size: 13px;
+      color: #733;
+      display: none;
+    }
+    .login-box.show { display: block; }
+    .err { color: var(--danger); font-size: 12px; margin-top: 6px; min-height: 16px; }
     @media (max-width: 720px) {
       .wrap { margin: 12px auto; padding: 16px; }
       .toolbar { grid-template-columns: 1fr; }
@@ -240,7 +250,12 @@
 <body>
   <main class="wrap">
     <h1>创新π协会成员名录</h1>
-    <p class="sub">成员展示为个人信息卡片，点击“查看详情”可打开完整信息</p>
+    <p class="sub">未登录可看基础信息；登录后可查看完整个人详情卡片。</p>
+
+    <section class="topbar">
+      <div class="auth" id="authText">当前状态：未登录（仅可查看部分信息）</div>
+      <button class="auth-btn" id="authBtn" type="button">登录查看完整信息</button>
+    </section>
 
     <section class="toolbar">
       <label>
@@ -260,119 +275,45 @@
         <h3 id="modalName">成员详情</h3>
         <button class="close" id="closeBtn" type="button">关闭</button>
       </div>
+      <div id="loginPrompt" class="login-box">
+        你当前未登录，只能查看基础信息。请先登录再查看完整详情。
+      </div>
       <div class="detail-grid" id="detailGrid"></div>
       <div class="detail-block" id="detailResume"></div>
       <div class="detail-block" id="detailIdea"></div>
     </article>
   </section>
 
+  <section class="modal" id="loginModal">
+    <article class="panel" style="width:min(440px,96vw)">
+      <div class="panel-head">
+        <h3>登录</h3>
+        <button class="close" id="closeLogin" type="button">关闭</button>
+      </div>
+      <label class="line"><span class="label">账号</span><input id="username" type="text" placeholder="请输入账号" /></label>
+      <label class="line" style="margin-top:10px;"><span class="label">密码</span><input id="password" type="password" placeholder="请输入密码" /></label>
+      <div class="err" id="loginErr"></div>
+      <button class="auth-btn" id="doLogin" type="button">登录</button>
+    </article>
+  </section>
+
   <script>
+    // 演示级本地登录（后续可替换为后端鉴权）
+    const DEMO_USER = "admin";
+    const DEMO_PASS = "pi2026";
+
     const members = [
-      {
-        name: "喻文辉",
-        studentId: "20244080219",
-        gender: "未知",
-        className: "本24数信1班",
-        major: "数据",
-        phone: "19376838515",
-        qq: "",
-        personality: "",
-        hobby: "",
-        resume: "项目备案文档显示为项目负责人。",
-        idea: ""
-      },
-      {
-        name: "李家琪",
-        studentId: "",
-        gender: "女",
-        className: "本24智能03班",
-        major: "人工智能",
-        phone: "13418511419",
-        qq: "268673200",
-        personality: "比较开朗乐观",
-        hobby: "羽毛球、追剧、看小说，对算法比较感兴趣",
-        resume: "院团学学生会学习部负责人，区块链协会成员，获2024-2025学年校三等奖学金。",
-        idea: "校友一站式服务管理平台，为在校与毕业校友提供多板块服务。"
-      },
-      {
-        name: "刘凤麟",
-        studentId: "",
-        gender: "男",
-        className: "二班",
-        major: "物联网工程",
-        phone: "13637020857",
-        qq: "3168895506",
-        personality: "活泼开朗，善于沟通",
-        hobby: "嵌入式开发、智能硬件项目实践",
-        resume: "有C语言与Keil经验，参与多项创新创业比赛，关注AIoT方向。",
-        idea: "构建以具身智能和ESP32分布式节点为核心的主动协同智能家居系统。"
-      },
-      {
-        name: "蔡晨欣",
-        studentId: "",
-        gender: "男",
-        className: "本25物联01班",
-        major: "物联网工程",
-        phone: "19892131376",
-        qq: "1448922258",
-        personality: "外向，周到",
-        hobby: "旅游，打游戏",
-        resume: "获得ACM新生比赛三等奖。",
-        idea: "希望做一个能拉近邻里关系的产品。"
-      },
-      {
-        name: "高振华",
-        studentId: "",
-        gender: "男",
-        className: "本24物联02班",
-        major: "物联网工程",
-        phone: "18628193428",
-        qq: "3041148501",
-        personality: "善于倾听与协作，执行力强",
-        hobby: "PPT、文案剧本、视频拍摄、C语言、Python",
-        resume: "参与大创赛获校二等奖，参与跨专业三创项目，获院三等奖学金。",
-        idea: "希望加入合适团队提升自己，配合学习新知识并完善能力。"
-      },
-      {
-        name: "黄楚淇",
-        studentId: "",
-        gender: "女",
-        className: "本25数据03班",
-        major: "数据科学与大数据技术",
-        phone: "13187270427",
-        qq: "2290667304",
-        personality: "ENFP",
-        hobby: "钢琴、侦探小说、主持、旅游、画画、摄影、写诗",
-        resume: "有6年主持经验，钢琴六级，策划过公益活动，军训诗作被校内公众号刊登。",
-        idea: "通过环境与体感数据推测最适宜洗澡水温。"
-      },
-      {
-        name: "黄健东",
-        studentId: "",
-        gender: "男",
-        className: "本24软创01班",
-        major: "软件工程（华为创新）",
-        phone: "15116572761",
-        qq: "3317579730",
-        personality: "因人而异",
-        hobby: "篮球",
-        resume: "任班长、班助、学生会体育部负责人、计算机篮球队队长，新生杯亚军。",
-        idea: "通过有吸引力的篮球短视频打造自媒体账号。"
-      },
-      {
-        name: "田慧雪",
-        studentId: "",
-        gender: "女",
-        className: "本24软创01班",
-        major: "软件工程（华为创新）",
-        phone: "18074371091",
-        qq: "3101472748",
-        personality: "比较内向",
-        hobby: "爱好无，特长无",
-        resume: "获南华二等奖学金、南华优秀学生。",
-        idea: "希望通过参加协会和比赛提升编程能力、丰富履历并寻找队友。"
-      }
+      { name: "喻文辉", studentId: "20244080219", gender: "未知", className: "本24数信1班", major: "数据", phone: "19376838515", qq: "", personality: "", hobby: "", resume: "项目备案文档显示为项目负责人。", idea: "" },
+      { name: "李家琪", studentId: "", gender: "女", className: "本24智能03班", major: "人工智能", phone: "13418511419", qq: "268673200", personality: "比较开朗乐观", hobby: "羽毛球、追剧、看小说，对算法比较感兴趣", resume: "院团学学生会学习部负责人，区块链协会成员，获2024-2025学年校三等奖学金。", idea: "校友一站式服务管理平台，为在校与毕业校友提供多板块服务。" },
+      { name: "刘凤麟", studentId: "", gender: "男", className: "二班", major: "物联网工程", phone: "13637020857", qq: "3168895506", personality: "活泼开朗，善于沟通", hobby: "嵌入式开发、智能硬件项目实践", resume: "有C语言与Keil经验，参与多项创新创业比赛，关注AIoT方向。", idea: "构建以具身智能和ESP32分布式节点为核心的主动协同智能家居系统。" },
+      { name: "蔡晨欣", studentId: "", gender: "男", className: "本25物联01班", major: "物联网工程", phone: "19892131376", qq: "1448922258", personality: "外向，周到", hobby: "旅游，打游戏", resume: "获得ACM新生比赛三等奖。", idea: "希望做一个能拉近邻里关系的产品。" },
+      { name: "高振华", studentId: "", gender: "男", className: "本24物联02班", major: "物联网工程", phone: "18628193428", qq: "3041148501", personality: "善于倾听与协作，执行力强", hobby: "PPT、文案剧本、视频拍摄、C语言、Python", resume: "参与大创赛获校二等奖，参与跨专业三创项目，获院三等奖学金。", idea: "希望加入合适团队提升自己，配合学习新知识并完善能力。" },
+      { name: "黄楚淇", studentId: "", gender: "女", className: "本25数据03班", major: "数据科学与大数据技术", phone: "13187270427", qq: "2290667304", personality: "ENFP", hobby: "钢琴、侦探小说、主持、旅游、画画、摄影、写诗", resume: "有6年主持经验，钢琴六级，策划过公益活动，军训诗作被校内公众号刊登。", idea: "通过环境与体感数据推测最适宜洗澡水温。" },
+      { name: "黄健东", studentId: "", gender: "男", className: "本24软创01班", major: "软件工程（华为创新）", phone: "15116572761", qq: "3317579730", personality: "因人而异", hobby: "篮球", resume: "任班长、班助、学生会体育部负责人、计算机篮球队队长，新生杯亚军。", idea: "通过有吸引力的篮球短视频打造自媒体账号。" },
+      { name: "田慧雪", studentId: "", gender: "女", className: "本24软创01班", major: "软件工程（华为创新）", phone: "18074371091", qq: "3101472748", personality: "比较内向", hobby: "爱好无，特长无", resume: "获南华二等奖学金、南华优秀学生。", idea: "希望通过参加协会和比赛提升编程能力、丰富履历并寻找队友。" }
     ];
+
+    let isLoggedIn = localStorage.getItem("pi_member_logged_in") === "1";
 
     const cards = document.getElementById("cards");
     const count = document.getElementById("count");
@@ -383,6 +324,26 @@
     const detailResume = document.getElementById("detailResume");
     const detailIdea = document.getElementById("detailIdea");
     const closeBtn = document.getElementById("closeBtn");
+    const loginPrompt = document.getElementById("loginPrompt");
+
+    const authText = document.getElementById("authText");
+    const authBtn = document.getElementById("authBtn");
+    const loginModal = document.getElementById("loginModal");
+    const closeLogin = document.getElementById("closeLogin");
+    const doLogin = document.getElementById("doLogin");
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const loginErr = document.getElementById("loginErr");
+
+    function updateAuthUI() {
+      if (isLoggedIn) {
+        authText.textContent = "当前状态：已登录（可查看完整信息）";
+        authBtn.textContent = "退出登录";
+      } else {
+        authText.textContent = "当前状态：未登录（仅可查看部分信息）";
+        authBtn.textContent = "登录查看完整信息";
+      }
+    }
 
     function line(label, value) {
       return `<div class="detail-item"><span class="detail-label">${label}</span>${value || "待补充"}</div>`;
@@ -390,18 +351,36 @@
 
     function openDetail(member) {
       modalName.textContent = member.name + " · 详细信息";
-      detailGrid.innerHTML = [
-        line("学号", member.studentId),
-        line("性别", member.gender),
-        line("班级", member.className),
-        line("专业", member.major),
-        line("联系方式", member.phone),
-        line("QQ", member.qq),
-        line("性格", member.personality),
-        line("爱好特长", member.hobby)
-      ].join("");
-      detailResume.innerHTML = `<span class="detail-label">个人简历</span>${member.resume || "待补充"}`;
-      detailIdea.innerHTML = `<span class="detail-label">想法/项目构想</span>${member.idea || "待补充"}`;
+
+      if (!isLoggedIn) {
+        loginPrompt.classList.add("show");
+        detailGrid.innerHTML = [
+          line("学号", "***"),
+          line("性别", member.gender || "待补充"),
+          line("班级", member.className || "待补充"),
+          line("专业", member.major || "待补充"),
+          line("联系方式", "登录后可见"),
+          line("QQ", "登录后可见"),
+          line("性格", "登录后可见"),
+          line("爱好特长", "登录后可见")
+        ].join("");
+        detailResume.innerHTML = "<span class=\"detail-label\">个人简历</span>登录后可查看完整简历";
+        detailIdea.innerHTML = "<span class=\"detail-label\">想法/项目构想</span>登录后可查看完整内容";
+      } else {
+        loginPrompt.classList.remove("show");
+        detailGrid.innerHTML = [
+          line("学号", member.studentId),
+          line("性别", member.gender),
+          line("班级", member.className),
+          line("专业", member.major),
+          line("联系方式", member.phone),
+          line("QQ", member.qq),
+          line("性格", member.personality),
+          line("爱好特长", member.hobby)
+        ].join("");
+        detailResume.innerHTML = `<span class=\"detail-label\">个人简历</span>${member.resume || "待补充"}`;
+        detailIdea.innerHTML = `<span class=\"detail-label\">想法/项目构想</span>${member.idea || "待补充"}`;
+      }
       modal.classList.add("show");
     }
 
@@ -413,6 +392,7 @@
         list.forEach((m, i) => {
           const card = document.createElement("article");
           card.className = "card";
+          card.style.animationDelay = `${i * 35}ms`;
           card.innerHTML = `
             <span class="seq">成员 #${i + 1}</span>
             <h2 class="name">${m.name}</h2>
@@ -428,10 +408,41 @@
       count.textContent = `共 ${list.length} 人`;
     }
 
-    closeBtn.addEventListener("click", () => modal.classList.remove("show"));
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) modal.classList.remove("show");
+    function doLoginCheck() {
+      const u = username.value.trim();
+      const p = password.value;
+      if (u === DEMO_USER && p === DEMO_PASS) {
+        isLoggedIn = true;
+        localStorage.setItem("pi_member_logged_in", "1");
+        loginErr.textContent = "";
+        loginModal.classList.remove("show");
+        updateAuthUI();
+      } else {
+        loginErr.textContent = "账号或密码错误，请重试。";
+      }
+    }
+
+    authBtn.addEventListener("click", () => {
+      if (isLoggedIn) {
+        isLoggedIn = false;
+        localStorage.removeItem("pi_member_logged_in");
+        updateAuthUI();
+        return;
+      }
+      username.value = "";
+      password.value = "";
+      loginErr.textContent = "";
+      loginModal.classList.add("show");
+      username.focus();
     });
+
+    closeLogin.addEventListener("click", () => loginModal.classList.remove("show"));
+    doLogin.addEventListener("click", doLoginCheck);
+    password.addEventListener("keydown", (e) => { if (e.key === "Enter") doLoginCheck(); });
+
+    closeBtn.addEventListener("click", () => modal.classList.remove("show"));
+    modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
+    loginModal.addEventListener("click", (e) => { if (e.target === loginModal) loginModal.classList.remove("show"); });
 
     search.addEventListener("input", () => {
       const q = search.value.trim();
@@ -439,6 +450,7 @@
       render(members.filter((m) => m.name.includes(q)));
     });
 
+    updateAuthUI();
     render(members);
   </script>
 </body>
