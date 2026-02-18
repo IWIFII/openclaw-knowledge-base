@@ -17,6 +17,7 @@
       --brand: #0d5c63;
       --accent: #f2a65a;
       --ok: #2b9348;
+      --card: #fffdf6;
     }
     * { box-sizing: border-box; }
     body {
@@ -30,9 +31,9 @@
       min-height: 100vh;
     }
     .wrap {
-      width: min(980px, 92vw);
-      margin: 40px auto;
-      padding: 28px;
+      width: min(1080px, 94vw);
+      margin: 32px auto;
+      padding: 24px;
       border: 1px solid var(--line);
       border-radius: 18px;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
@@ -50,7 +51,7 @@
       font-size: 14px;
     }
     .toolbar {
-      margin-top: 24px;
+      margin-top: 22px;
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
@@ -77,31 +78,57 @@
       background: rgba(13, 92, 99, 0.08);
       white-space: nowrap;
     }
-    .table {
+    .grid {
       margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(20, 25, 30, 0.05);
+      position: relative;
       overflow: hidden;
-      background: var(--panel);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 15px;
+    .card::after {
+      content: "";
+      position: absolute;
+      right: -24px;
+      top: -24px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(242, 166, 90, 0.18), rgba(242, 166, 90, 0));
+      pointer-events: none;
     }
-    thead th {
-      text-align: left;
-      background: #f2efe4;
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--line);
+    .seq {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 2px 8px;
+      border: 1px dashed #c9c1ad;
+      border-radius: 999px;
+      margin-bottom: 10px;
     }
-    tbody td {
-      padding: 12px 14px;
-      border-bottom: 1px dashed #e7e2d6;
-      vertical-align: top;
+    .name {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
     }
-    tbody tr:last-child td { border-bottom: none; }
-    .muted { color: var(--muted); }
+    .line {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .label {
+      color: var(--brand);
+      font-weight: 700;
+      margin-right: 6px;
+    }
     .badge {
       display: inline-flex;
       align-items: center;
@@ -111,6 +138,16 @@
       border-radius: 999px;
       font-size: 12px;
       background: #eef9f1;
+      margin-top: 12px;
+    }
+    .empty {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 10px;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      background: #fffdf9;
     }
     .foot {
       margin-top: 14px;
@@ -118,16 +155,16 @@
       font-size: 13px;
     }
     @media (max-width: 720px) {
-      .wrap { margin: 16px auto; padding: 18px; }
+      .wrap { margin: 12px auto; padding: 16px; }
       .toolbar { grid-template-columns: 1fr; }
-      table { font-size: 14px; }
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <h1>创新π协会成员名录</h1>
-    <p class="sub">用于展示协会成员清单（当前版本：去重名单）</p>
+    <p class="sub">成员展示已切换为个人信息卡片样式（当前版本：去重名单）</p>
 
     <section class="toolbar">
       <label>
@@ -136,19 +173,7 @@
       <div class="count" id="count">共 0 人</div>
     </section>
 
-    <section class="table" aria-live="polite">
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 72px;">序号</th>
-            <th style="width: 180px;">姓名</th>
-            <th style="width: 180px;">学号</th>
-            <th>备注</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </section>
+    <section class="grid" id="cards" aria-live="polite"></section>
 
     <p class="foot">学号为空表示待补充；数据来源为协会报名/备案文档整理。</p>
   </main>
@@ -165,22 +190,28 @@
       { name: "田慧雪", studentId: "", note: "来自报名/备案文档提取" }
     ];
 
-    const rows = document.getElementById("rows");
+    const cards = document.getElementById("cards");
     const count = document.getElementById("count");
     const search = document.getElementById("search");
 
     function render(list) {
-      rows.innerHTML = "";
-      list.forEach((m, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${i + 1}</td>
-          <td><strong>${m.name}</strong></td>
-          <td>${m.studentId || '<span class="muted">待补充</span>'}</td>
-          <td>${m.note} <span class="badge">已收录</span></td>
-        `;
-        rows.appendChild(tr);
-      });
+      cards.innerHTML = "";
+      if (!list.length) {
+        cards.innerHTML = '<div class="empty">没有匹配到成员，请换个关键词试试。</div>';
+      } else {
+        list.forEach((m, i) => {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <span class="seq">成员 #${i + 1}</span>
+            <h2 class="name">${m.name}</h2>
+            <p class="line"><span class="label">学号</span>${m.studentId || "待补充"}</p>
+            <p class="line"><span class="label">备注</span>${m.note}</p>
+            <span class="badge">已收录</span>
+          `;
+          cards.appendChild(card);
+        });
+      }
       count.textContent = `共 ${list.length} 人`;
     }
 
