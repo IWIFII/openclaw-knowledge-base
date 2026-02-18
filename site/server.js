@@ -13,8 +13,10 @@ const LOGIN_PASS = process.env.SITE_PASS || "pi2026";
 
 const sessions = new Map();
 const askRate = new Map();
+const chatHistory = new Map();
 const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
 const ASK_LIMIT_PER_MIN = 10;
+const CHAT_MAX_TURNS = 10;
 
 function readMembers() {
   const raw = fs.readFileSync(MEMBERS_PATH, "utf-8");
@@ -64,7 +66,7 @@ function getProviderConfig() {
   }
 }
 
-async function askModel(message) {
+async function askModel(message, history = []) {
   const provider = getProviderConfig();
   if (!provider?.baseUrl || !provider?.apiKey) {
     throw new Error("model_provider_not_configured");
@@ -78,8 +80,9 @@ async function askModel(message) {
       {
         role: "system",
         content:
-          "你是创新π协会网站内的助手。回答简洁、准确、中文优先；涉及成员隐私时仅基于已授权可见数据回答。",
+          "你是创新π协会网站内的助手。回答简洁、准确、中文优先；优先结合本对话上下文连续回答。涉及成员隐私时仅基于已授权可见数据回答。",
       },
+      ...history,
       { role: "user", content: message },
     ],
   };
@@ -162,8 +165,16 @@ app.post("/api/ask", async (req, res) => {
   if (!msg) return res.status(400).json({ ok: false, error: "empty_message" });
   if (msg.length > 2000) return res.status(400).json({ ok: false, error: "message_too_long" });
 
+  const history = chatHistory.get(token) || [];
+
   try {
-    const answer = await askModel(msg);
+    const answer = await askModel(msg, history);
+    const next = [
+      ...history,
+      { role: "user", content: msg },
+      { role: "assistant", content: answer },
+    ].slice(-CHAT_MAX_TURNS * 2);
+    chatHistory.set(token, next);
     res.json({ ok: true, answer });
   } catch (err) {
     res.status(500).json({ ok: false, error: "ask_failed", detail: String(err.message || err) });
