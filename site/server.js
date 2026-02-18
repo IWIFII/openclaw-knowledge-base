@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 8080;
 const SITE_DIR = __dirname;
 const MEMBERS_PATH = path.join(SITE_DIR, "members.full.json");
 
-const LOGIN_USER = process.env.SITE_USER || "admin";
-const LOGIN_PASS = process.env.SITE_PASS || "pi2026";
+const LOGIN_USER = process.env.SITE_USER;
+const LOGIN_PASS = process.env.SITE_PASS;
 
 const sessions = new Map();
 const askRate = new Map();
@@ -180,6 +180,11 @@ app.post("/api/ask", async (req, res) => {
     res.status(500).json({ ok: false, error: "ask_failed", detail: String(err.message || err) });
   }
 });
+
+if (!LOGIN_USER || !LOGIN_PASS) {
+  console.error("Missing SITE_USER or SITE_PASS environment variables.");
+  process.exit(1);
+}
 
 app.listen(PORT, () => {
   console.log(`site backend listening on :${PORT}`);
