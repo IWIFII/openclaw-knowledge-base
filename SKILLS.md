@@ -5,7 +5,7 @@
 ## 已安装技能
 
 <!-- SKILLS_LIST_START -->
-更新时间：2026-02-18 06:02 UTC
+更新时间：2026-02-19 02:00 UTC
 
 - `agent-browser` `0.2.0`
 - `diagram-generator` `1.1.1`
@@ -14,6 +14,10 @@
 - `weather` `1.0.0`
 - `openclaw-token-optimizer` `1.4.3`
 - `context-optimizer` `1.0.0`
+- `memory-setup` `1.0.0`
+- `google-sheets` `1.0.6`
+- `excel-xlsx` `1.0.0`
+- `polymarket-agent` `1.0.2`
 <!-- SKILLS_LIST_END -->
 
 ## 说明
