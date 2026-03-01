@@ -5,7 +5,7 @@
 ## 已安装技能
 
 <!-- SKILLS_LIST_START -->
-更新时间：2026-02-28 02:00 UTC
+更新时间：2026-03-01 02:00 UTC
 
 - `agent-browser` `0.2.0`
 - `diagram-generator` `1.1.1`
