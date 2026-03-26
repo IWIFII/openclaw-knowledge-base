@@ -5,7 +5,7 @@
 ## 已安装技能
 
 <!-- SKILLS_LIST_START -->
-更新时间：2026-03-22 02:00 UTC
+更新时间：2026-03-26 02:00 UTC
 
 - `agent-browser` `0.2.0`
 - `diagram-generator` `1.1.1`
@@ -18,6 +18,7 @@
 - `google-sheets` `1.0.6`
 - `excel-xlsx` `1.0.0`
 - `polymarket-agent` `1.0.2`
+- `obsidian` `1.0.0`
 <!-- SKILLS_LIST_END -->
 
 ## 说明
